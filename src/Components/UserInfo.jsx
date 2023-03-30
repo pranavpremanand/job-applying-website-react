@@ -82,13 +82,18 @@ const UserInfo = () => {
               defaultValue={userData?.name}
               required
               onChange={(e) => {
+                const nameReg = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
                 if (e.target.value.length <= 2) {
                   setErr({ ...err, nameErr: "Enter a valid name" });
                 } else if (e.target.value.length === 0) {
                   setErr({ ...err, nameErr: "This field is required" });
                 } else {
-                  setUserInfo({ ...userInfo, name: e.target.value });
-                  setErr({ ...err, nameErr: "" });
+                  if (!nameReg.test(e.target.value)) {
+                    setErr({ ...err, nameErr: "Enter a valid name" });
+                  } else {
+                    setUserInfo({ ...userInfo, name: e.target.value });
+                    setErr({ ...err, nameErr: "" });
+                  }
                 }
               }}
               type="text"
